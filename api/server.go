@@ -36,7 +36,7 @@ func (s *Server) Start() error {
 	r.HandleFunc("/search", searchAll).Methods("GET")
 	r.HandleFunc("/search/songs", searchSongs).Methods("GET")
 	r.HandleFunc("/search/albums", searchAlbums).Methods("GET")
-	r.HandleFunc("/search/artist", searchArtist).Methods("GET")
+	r.HandleFunc("/search/artists", searchArtists).Methods("GET")
 	r.HandleFunc("/search/playlist", searchPlaylists).Methods("GET")
 
 	return http.ListenAndServe(s.listenAddr, r)
@@ -154,7 +154,7 @@ func searchAlbums(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func searchArtist(w http.ResponseWriter, r *http.Request) {
+func searchArtists(w http.ResponseWriter, r *http.Request) {
 
 	params := utils.SearchParamBuilder(r.URL.Query())
 
