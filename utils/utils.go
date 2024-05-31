@@ -56,7 +56,6 @@ func FetchReq(endpoint string, context ContextType, params ...Params) any {
 
 	url := QueryBuilder(endpoint, context, params)
 
-
 	resp, err := http.Get(url)
 	defer resp.Body.Close()
 
@@ -70,8 +69,30 @@ func FetchReq(endpoint string, context ContextType, params ...Params) any {
 		panic(err)
 	}
 
-	var data any
+	var data map[string]any
 	json.Unmarshal(body, &data)
 
 	return data
+}
+
+func SearchParamBuilder(queries url.Values) []Params {
+	var params []Params
+
+	for key, Value := range queries {
+		var val = Value[0]
+		var k string
+		if key == "query" {
+			k = "q"
+		} else if key == "page" {
+			k = "p"
+		} else {
+			k = "n"
+		}
+
+		param := Params{Key: k, Value: val}
+
+		params = append(params, param)
+	}
+
+	return params
 }

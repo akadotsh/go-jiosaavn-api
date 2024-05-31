@@ -16,6 +16,11 @@ type SongsT struct {
 	Station     string
 }
 
+type AlbumsT struct {
+	ID   string
+	Link string
+}
+
 var Search = SearchT{
 	All:       "autocomplete.get",
 	Songs:     "search.getResults",
@@ -30,4 +35,9 @@ var Songs = SongsT{
 	Suggestions: "webradio.getSong",
 	Lyrics:      "lyrics.getLyrics",
 	Station:     "webradio.createEntityStation",
+}
+
+var Album = AlbumsT{
+	ID:   "content.getAlbumDetails",
+	Link: "webapi.get",
 }
