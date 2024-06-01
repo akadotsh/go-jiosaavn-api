@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/akadotsh/go-jiosaavn-client/utils"
 	"github.com/gorilla/mux"
@@ -16,7 +17,8 @@ type Server struct {
 
 func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Println(r.RequestURI)
+		start := time.Now()
+		log.Println(r.Method, r.RequestURI, time.Since(start))
 		next.ServeHTTP(w, r)
 	})
 }
@@ -182,72 +184,67 @@ func searchPlaylists(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func getArtistById(w http.ResponseWriter, r *http.Request) {
 
-func getArtistById(w http.ResponseWriter, r *http.Request){
- 
-	vars:= mux.Vars(r);
+	vars := mux.Vars(r)
 
-	id:=vars["id"]
+	id := vars["id"]
 
+	response := utils.FetchReq(utils.Artists.ID, "web6dot0", utils.Params{Key: "artistId", Value: id})
 
-	response:=utils.FetchReq(utils.Artists.ID,"web6dot0",utils.Params{Key:"artistId" , Value: id});
-
-	w.WriteHeader(http.StatusOK);
+	w.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(w).Encode(response)
 }
 
-func getArtistAlbums(w http.ResponseWriter, r *http.Request){
+func getArtistAlbums(w http.ResponseWriter, r *http.Request) {
 
-	vars:= mux.Vars(r);
+	vars := mux.Vars(r)
 
-	id:=vars["id"]
+	id := vars["id"]
 
 	var params []utils.Params
-     
-	for key,val:= range r.URL.Query(){
-       params = append(params, utils.Params{Key: key,Value: val[0]})
+
+	for key, val := range r.URL.Query() {
+		params = append(params, utils.Params{Key: key, Value: val[0]})
 	}
 
-	params = append(params, utils.Params{Key:"artistId" , Value: id})
+	params = append(params, utils.Params{Key: "artistId", Value: id})
 
-	fmt.Println("params",params)
+	fmt.Println("params", params)
 
-	response:=utils.FetchReq(utils.Artists.Albums,"web6dot0",params...);
+	response := utils.FetchReq(utils.Artists.Albums, "web6dot0", params...)
 
-	w.WriteHeader(http.StatusOK);
+	w.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(w).Encode(response)
 }
 
+func getArtistSongs(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
 
-func getArtistSongs(w http.ResponseWriter, r *http.Request){
-	vars:= mux.Vars(r);
-
-	id:=vars["id"]
+	id := vars["id"]
 
 	var params []utils.Params
-     
-	for key,val:= range r.URL.Query(){
-       params = append(params, utils.Params{Key: key,Value: val[0]})
+
+	for key, val := range r.URL.Query() {
+		params = append(params, utils.Params{Key: key, Value: val[0]})
 	}
 
-	params = append(params, utils.Params{Key:"artistId" , Value: id})
+	params = append(params, utils.Params{Key: "artistId", Value: id})
 
+	response := utils.FetchReq(utils.Artists.Songs, "web6dot0", params...)
 
-	response:=utils.FetchReq(utils.Artists.Songs,"web6dot0",params...);
-
-	w.WriteHeader(http.StatusOK);
+	w.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(w).Encode(response)
 }
 
-
-func getPlaylistById(w http.ResponseWriter, r *http.Request){
+func getPlaylistById(w http.ResponseWriter, r *http.Request) {
 
 	response := utils.FetchReq(utils.Playlist.ID, "web6dot0", utils.Params{Key: "listid", Value: r.URL.Query()["id"][0]})
 
-	w.WriteHeader(http.StatusOK);
+	w.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(w).Encode(response)
 }
