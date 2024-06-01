@@ -26,20 +26,22 @@ func NewServer(listenAddr string) *Server {
 }
 
 func (s *Server) Start() error {
-	r := mux.NewRouter()
-	r.Use(loggingMiddleware)
-	r.HandleFunc("/", HomeHandler).Methods("GET")
-	r.HandleFunc("/songs/{id}", getSongByID).Methods("GET")
-	r.HandleFunc("/songs/{id}/suggestions", getSongSuggestions).Methods("GET")
-	r.HandleFunc("/songs/{id}/lyrics", getSongLyrics).Methods("GET")
-	r.HandleFunc("/album/{id}", getAlbumById).Methods("GET")
-	r.HandleFunc("/search", searchAll).Methods("GET")
-	r.HandleFunc("/search/songs", searchSongs).Methods("GET")
-	r.HandleFunc("/search/albums", searchAlbums).Methods("GET")
-	r.HandleFunc("/search/artists", searchArtists).Methods("GET")
-	r.HandleFunc("/search/playlist", searchPlaylists).Methods("GET")
+	router := mux.NewRouter()
+	router = router.PathPrefix("/api").Subrouter()
 
-	return http.ListenAndServe(s.listenAddr, r)
+	router.Use(loggingMiddleware)
+	router.HandleFunc("/", HomeHandler).Methods("GET")
+	router.HandleFunc("/songs/{id}", getSongByID).Methods("GET")
+	router.HandleFunc("/songs/{id}/suggestions", getSongSuggestions).Methods("GET")
+	router.HandleFunc("/songs/{id}/lyrics", getSongLyrics).Methods("GET")
+	router.HandleFunc("/album/{id}", getAlbumById).Methods("GET")
+	router.HandleFunc("/search", searchAll).Methods("GET")
+	router.HandleFunc("/search/songs", searchSongs).Methods("GET")
+	router.HandleFunc("/search/albums", searchAlbums).Methods("GET")
+	router.HandleFunc("/search/artists", searchArtists).Methods("GET")
+	router.HandleFunc("/search/playlist", searchPlaylists).Methods("GET")
+
+	return http.ListenAndServe(s.listenAddr, router)
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
