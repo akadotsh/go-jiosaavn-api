@@ -40,6 +40,10 @@ func (s *Server) Start() error {
 	router.HandleFunc("/search/albums", searchAlbums).Methods("GET")
 	router.HandleFunc("/search/artists", searchArtists).Methods("GET")
 	router.HandleFunc("/search/playlist", searchPlaylists).Methods("GET")
+	router.HandleFunc("/artists/{id}", getArtistById).Methods("GET")
+	router.HandleFunc("/artists/{id}/songs", getArtistSongs).Methods("GET")
+	router.HandleFunc("/artists/{id}/albums", getArtistAlbums).Methods("GET")
+	router.HandleFunc("/playlists", getPlaylistById).Methods("GET")
 
 	return http.ListenAndServe(s.listenAddr, router)
 }
@@ -176,4 +180,74 @@ func searchPlaylists(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(response)
 
+}
+
+
+func getArtistById(w http.ResponseWriter, r *http.Request){
+ 
+	vars:= mux.Vars(r);
+
+	id:=vars["id"]
+
+
+	response:=utils.FetchReq(utils.Artists.ID,"web6dot0",utils.Params{Key:"artistId" , Value: id});
+
+	w.WriteHeader(http.StatusOK);
+
+	json.NewEncoder(w).Encode(response)
+}
+
+func getArtistAlbums(w http.ResponseWriter, r *http.Request){
+
+	vars:= mux.Vars(r);
+
+	id:=vars["id"]
+
+	var params []utils.Params
+     
+	for key,val:= range r.URL.Query(){
+       params = append(params, utils.Params{Key: key,Value: val[0]})
+	}
+
+	params = append(params, utils.Params{Key:"artistId" , Value: id})
+
+	fmt.Println("params",params)
+
+	response:=utils.FetchReq(utils.Artists.Albums,"web6dot0",params...);
+
+	w.WriteHeader(http.StatusOK);
+
+	json.NewEncoder(w).Encode(response)
+}
+
+
+func getArtistSongs(w http.ResponseWriter, r *http.Request){
+	vars:= mux.Vars(r);
+
+	id:=vars["id"]
+
+	var params []utils.Params
+     
+	for key,val:= range r.URL.Query(){
+       params = append(params, utils.Params{Key: key,Value: val[0]})
+	}
+
+	params = append(params, utils.Params{Key:"artistId" , Value: id})
+
+
+	response:=utils.FetchReq(utils.Artists.Songs,"web6dot0",params...);
+
+	w.WriteHeader(http.StatusOK);
+
+	json.NewEncoder(w).Encode(response)
+}
+
+
+func getPlaylistById(w http.ResponseWriter, r *http.Request){
+
+	response := utils.FetchReq(utils.Playlist.ID, "web6dot0", utils.Params{Key: "listid", Value: r.URL.Query()["id"][0]})
+
+	w.WriteHeader(http.StatusOK);
+
+	json.NewEncoder(w).Encode(response)
 }
