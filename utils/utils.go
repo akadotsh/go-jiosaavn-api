@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -45,11 +46,12 @@ func QueryBuilder(endpoint string, context ContextType, params []Params) string 
 
 	url.RawQuery = queryParams.Encode()
 
+	fmt.Println("url",url.String())
 	return url.String()
 
 }
 
-func FetchReq(endpoint string, context ContextType, params ...Params) any {
+func FetchReq(endpoint string, context ContextType, params ...Params) map[string]any {
 
 	url := QueryBuilder(endpoint, context, params)
 

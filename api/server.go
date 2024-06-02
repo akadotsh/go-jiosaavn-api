@@ -3,9 +3,10 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
+
+	"github.com/charmbracelet/log"
 
 	"github.com/akadotsh/go-jiosaavn-client/utils"
 	"github.com/gorilla/mux"
@@ -18,7 +19,7 @@ type Server struct {
 func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
-		log.Println(r.Method, r.RequestURI, time.Since(start))
+		log.Info(r.Method, r.RequestURI, time.Since(start))
 		next.ServeHTTP(w, r)
 	})
 }
@@ -52,7 +53,7 @@ func (s *Server) Start() error {
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("go saavan api"))
+	w.Write([]byte("Beep Boop!"))
 }
 
 func getSongByID(w http.ResponseWriter, r *http.Request) {
@@ -74,11 +75,19 @@ func getSongSuggestions(w http.ResponseWriter, r *http.Request) {
 
 	id := vars["id"]
 
-	stationId := utils.FetchReq(utils.Songs.Station, "android", utils.Params{Key: "entity_id", Value: id}, utils.Params{Key: "entity_type", Value: "queue"})
+	stationIdRes := utils.FetchReq(utils.Songs.Station, "android", utils.Params{Key: "entity_id", Value: id}, utils.Params{Key: "entity_type", Value: "queue"})
 
-	fmt.Println("stationId", stationId)
+	fmt.Println("stationId", stationIdRes["stationid"])
+	stationId := stationIdRes["stationid"]
 
-	response := utils.FetchReq(utils.Songs.Suggestions, "web6dot0", utils.Params{Key: "stationid", Value: "wL8VR46pohZAiLPopjqZT8tDsTIMnC-4swRpFLNuxcF7E-TF7reOA__"})
+	_id, ok := stationId.(string)
+
+	if !ok {
+		fmt.Println("Type assertion failed")
+		return
+	}
+
+	response := utils.FetchReq(utils.Songs.Suggestions, "android", utils.Params{Key: "stationid", Value: _id})
 
 	w.WriteHeader(http.StatusOK)
 
@@ -114,20 +123,6 @@ func getAlbumById(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(response)
 }
-
-// func getSongByLink(w http.ResponseWriter, r *http.Request){
-//   vars:= mux.Vars(r);
-
-//   link:= vars["link"]
-
-//   response:=utils.FetchReq(utils.Songs.Link,"web6dot0",utils.Params{Key: "type",Value: "song"}, utils.Params{Key: "token",Value: link})
-
-//   fmt.Println("response",response)
-
-//   w.WriteHeader(http.StatusOK);
-
-//   json.NewEncoder(w).Encode(response)
-// }
 
 func searchAll(w http.ResponseWriter, r *http.Request) {
 
