@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/charmbracelet/log"
 
@@ -22,6 +23,9 @@ func NewServer(listenAddr string) *Server {
 
 func (s *Server) Start() error {
 	router := mux.NewRouter()
+
+ 
+
 	router = router.PathPrefix("/api").Subrouter()
 
 	router.Use(middleware.Logging)
@@ -40,7 +44,16 @@ func (s *Server) Start() error {
 	router.HandleFunc("/artists/{id}/albums", getArtistAlbums).Methods("GET")
 	router.HandleFunc("/playlists", getPlaylistById).Methods("GET")
 
-	return http.ListenAndServe(s.listenAddr, router)
+	srv := &http.Server{
+        Handler:      router,
+        Addr:         "127.0.0.1" + s.listenAddr,
+        // Good practice: enforce timeouts for servers you create!
+        WriteTimeout: 15 * time.Second,
+        ReadTimeout:  15 * time.Second,
+    }
+
+
+	return srv.ListenAndServe()
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
