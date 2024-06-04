@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -18,6 +17,11 @@ const (
 type Params struct {
 	Key   string
 	Value string
+}
+
+type Query struct {
+	endpoint string
+	params   []Params
 }
 
 func QueryBuilder(endpoint string, context ContextType, params []Params) string {
@@ -39,19 +43,19 @@ func QueryBuilder(endpoint string, context ContextType, params []Params) string 
 	queryParams.Add("_marker", "0")
 	queryParams.Add("api_version", "4")
 	queryParams.Add("api_version", "4")
-	queryParams.Add("ctx", string(context))
+	queryParams.Add("ctx", string(web6dot0))
 	for _, param := range params {
 		queryParams.Add(param.Key, param.Value)
 	}
 
 	url.RawQuery = queryParams.Encode()
 
-	fmt.Println("url",url.String())
+	fmt.Println("url", url.String())
 	return url.String()
 
 }
 
-func FetchReq(endpoint string, context ContextType, params ...Params) map[string]any {
+func FetchReq(endpoint string, context ContextType, params ...Params) ([]byte, error) {
 
 	url := QueryBuilder(endpoint, context, params)
 
@@ -59,19 +63,21 @@ func FetchReq(endpoint string, context ContextType, params ...Params) map[string
 	defer resp.Body.Close()
 
 	if err != nil {
-		panic(err)
+		// log.Panic(err)
+
+		return nil, err
 	}
 
 	body, err := io.ReadAll(resp.Body)
 
+	fmt.Println("ERROR", err)
 	if err != nil {
-		panic(err)
+		// log.Panic(err)
+		return nil, err
+
 	}
 
-	var data map[string]any
-	json.Unmarshal(body, &data)
-
-	return data
+	return body, nil
 }
 
 func SearchParamBuilder(queries url.Values) []Params {
@@ -94,4 +100,59 @@ func SearchParamBuilder(queries url.Values) []Params {
 	}
 
 	return params
+}
+
+type SongsByIDMoreInfo struct {
+	Music               string `json:"music"`
+	Album_Id            string `json:"album_id"`
+	Album               string `json:"album"`
+	Label               string `json:"label"`
+	Origin              string `json:"origin"`
+	Is_Dolby_Contet     bool   `json:"is_dolby_content"`
+	Encrypted_Media_Url string `json:"encrypted_media_url"`
+	Album_Url           string `json:"album_url"`
+	Duration            string `json:"duration"`
+	Rights              struct {
+		Code                 string `json:"code"`
+		Cacheable            string `json:"cacheable"`
+		Delete_Cached_Object string `json:"delete_cached_object"`
+		Reason               string `json:"reason"`
+	} `json:"rights"`
+	Cache_Data     string `json:"cache_data"`
+	Has_Lyrics     string `json:"has_lyrics"`
+	Lyrics_Snippet string `json:"lyrics_support"`
+	Starred        string `json:"starred"`
+	Copyright_Text string `json:"copyright_text"`
+	//	TODO   ArtistMap struct {
+	//		Primary_Artists
+	//	   }
+	Release_Date         string `json:"release_date"`
+	Label_Url            string `json:"label_url"`
+	Vcode                string `json:"vcode"`
+	Vlink                string `json:"vlink"`
+	Triller_Available    bool   `json:"triller_available"`
+	Request_Jiotune_Flag bool   `json:"request_jiotune_flag"`
+	Webp                 string `json:"webp"`
+	Lyrics_Id            string `json:"lyrics_id"`
+}
+
+type SongsByID struct {
+	ID               string            `json:"id"`
+	Title            string            `json:"title"`
+	Subtitle         string            `json:"subtitle"`
+	Header_Desc      string            `json:"header_desc"`
+	Type             string            `json:"type"`
+	Perma_Url        string            `json:"perma_url"`
+	Image            string            `json:"image"`
+	Play_Count       string            `json:"play_count"`
+	Explicit_Content string            `json:"explicit_content"`
+	List_Count       string            `json:"list_count"`
+	List_Type        string            `json:"list_type"`
+	List             string            `json:"list"`
+	More_Info        SongsByIDMoreInfo `json:"more_info"`
+}
+
+type ErrorHand struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
 }
