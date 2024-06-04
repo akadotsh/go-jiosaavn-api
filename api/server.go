@@ -144,13 +144,12 @@ func getAlbumById(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode("Albumn not Found")
 	}
 
-	var data any
+	var data utils.GetAlbumByIdResponse
 	json.Unmarshal(response, &data)
-	fmt.Println("data", data)
 
 	w.WriteHeader(http.StatusOK)
 
-	json.NewEncoder(w).Encode(data)
+	json.NewEncoder(w).Encode(data.List)
 }
 
 func searchAll(w http.ResponseWriter, r *http.Request) {

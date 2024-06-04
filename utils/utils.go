@@ -158,3 +158,57 @@ type ErrorHand struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`
 }
+
+type GetAlbumByIdResponse struct {
+	ID               string      `json:"id"`
+	Title            string      `json:"title"`
+	Subtitle         string      `json:"subtitle"`
+	Header_Desc      string      `json:"header_desc"`
+	Type             string      `json:"type"`
+	Perma_Url        string      `json:"perma_url"`
+	Image            string      `json:"image"`
+	Language         string      `json:"language"`
+	Year             string      `json:"year"`
+	Play_Count       string      `json:"play_count"`
+	Explicit_Content string      `json:"explicit_content"`
+	List_Count       string      `json:"list_count"`
+	List_Type        string      `json:"list_type"`
+	List             []SongsByID `json:"list"`
+	More_Info        struct {
+		//TODO artistMap
+		Song_Count       string `json:"song_count"`
+		Copyright_Text   string `json:"copyright_text"`
+		Is_Dolby_Content bool   `json:"is_dolby_content"`
+		Label_Url        string `json:"label_url"`
+	} `json:"more_info"`
+}
+
+// type SearchAllResponse struct {
+// 	Albums struct{
+// 		Data []struct{
+// 			ID string `json:"id"`
+// 			Title string `json:"title"`
+// 			Subtitle string `json:"subtitle"`
+// 			Type string `json:"type"`
+// 			Image string `json:"image"`
+// 			Perma_Url string `json:"perma_url"`
+// 			More_Info struct{
+// 				Music string `json:"music"`
+// 				Ctr int `json:"ctr"`
+// 				Year string `json:"year"`
+// 				Is_Movie string `json:"is_movie"`
+// 				Language string `json:"language"`
+// 				Song_Pids string `json:"song_pids"`
+
+// 			} `json:"more_info"`
+// 		} `json:"data"`
+// 	  Position int `json:"position"`
+// 	} `json:"albums"`
+//   Songs struct {
+// 	Data []struct {
+// 		ID string `json:"id"`
+// 		Title string `json:"title"`
+
+// 	}
+//   }
+// }
