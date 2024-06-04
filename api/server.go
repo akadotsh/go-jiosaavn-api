@@ -4,24 +4,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/charmbracelet/log"
 
+	"github.com/akadotsh/go-jiosaavn-client/api/middleware"
 	"github.com/akadotsh/go-jiosaavn-client/utils"
 	"github.com/gorilla/mux"
 )
 
 type Server struct {
 	listenAddr string
-}
-
-func loggingMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		start := time.Now()
-		log.Info(r.Method, r.RequestURI, time.Since(start))
-		next.ServeHTTP(w, r)
-	})
 }
 
 func NewServer(listenAddr string) *Server {
@@ -32,7 +24,7 @@ func (s *Server) Start() error {
 	router := mux.NewRouter()
 	router = router.PathPrefix("/api").Subrouter()
 
-	router.Use(loggingMiddleware)
+	router.Use(middleware.Logging)
 	router.HandleFunc("/", HomeHandler).Methods("GET")
 	router.HandleFunc("/songs/{id}", getSongByID).Methods("GET")
 	router.HandleFunc("/songs/{id}/suggestions", getSongSuggestions).Methods("GET")

@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 )
@@ -21,6 +22,7 @@ type Params struct {
 
 type Query struct {
 	endpoint string
+	context  ContextType
 	params   []Params
 }
 
@@ -63,7 +65,7 @@ func FetchReq(endpoint string, context ContextType, params ...Params) ([]byte, e
 	defer resp.Body.Close()
 
 	if err != nil {
-		// log.Panic(err)
+		log.Panic(err)
 
 		return nil, err
 	}
@@ -72,7 +74,7 @@ func FetchReq(endpoint string, context ContextType, params ...Params) ([]byte, e
 
 	fmt.Println("ERROR", err)
 	if err != nil {
-		// log.Panic(err)
+		log.Panic(err)
 		return nil, err
 
 	}
