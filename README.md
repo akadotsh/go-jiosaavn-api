@@ -1,4 +1,3 @@
-
 ## Installation
 
 To install and run this project, follow these steps:
@@ -17,8 +16,8 @@ git clone https://github.com/akadotsh/go-jiosaavn-api.git
 cd go-jiosaavn-api
 ```
 
-4. Build and run the project:
+4. run the project:
 
 ```
-go build cmd/main.go
+go run cmd/main.go
 ```
