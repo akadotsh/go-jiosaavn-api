@@ -1,6 +1,9 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ]
+  "commitMessagePrefix": "dependency",
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 4,
+  "postUpdateOptions": ["gomodTidy"],
+  "gomod": {
+    "enabled": true
+  }
 }
