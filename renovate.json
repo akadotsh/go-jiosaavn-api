@@ -8,5 +8,5 @@
   "gomod": {
     "enabled": true
   },
-  "extends": ["config:recommended", ":disableDependencyDashboard"]
+  "extends": ["config:recommended", ":dependencyDashboard"]
 }
