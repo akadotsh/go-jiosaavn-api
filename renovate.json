@@ -1,9 +1,11 @@
 {
+  "labels": ["dependency"],
   "semanticCommitType": "dependency",
   "prConcurrentLimit": 5,
   "prHourlyLimit": 5,
   "postUpdateOptions": ["gomodTidy"],
   "gomod": {
     "enabled": true
-  }
+  },
+  "extends": ["config:recommended", ":disableDependencyDashboard"]
 }
