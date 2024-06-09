@@ -12,7 +12,12 @@ import (
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Beep Boop!"))
+
+	resp := utils.Response{
+		Status:  "success",
+		Message: "Beep Boop!",
+	}
+	json.NewEncoder(w).Encode(resp)
 }
 
 type getSongByIDData struct {
@@ -74,8 +79,7 @@ func getSongSuggestions(w http.ResponseWriter, r *http.Request) {
 
 	id := vars["id"]
 
-
-	var stationIdRes, err = utils.FetchReq(utils.Songs.Station, utils.Params{Key: "entity_id", Value: id}, utils.Params{Key: "entity_type", Value: "queue"}, utils.Params{Key: "", Value: "queue"},)
+	var stationIdRes, err = utils.FetchReq(utils.Songs.Station, utils.Params{Key: "entity_id", Value: id}, utils.Params{Key: "entity_type", Value: "queue"}, utils.Params{Key: "", Value: "queue"})
 
 	if err != nil {
 		fmt.Println(err)

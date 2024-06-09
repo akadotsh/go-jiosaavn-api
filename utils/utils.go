@@ -20,6 +20,11 @@ type Params struct {
 	Value string
 }
 
+type Response struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+}
+
 func QueryBuilder(endpoint string, params []Params) string {
 
 	url := url.URL{
