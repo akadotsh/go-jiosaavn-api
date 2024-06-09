@@ -26,7 +26,7 @@ func getSongByID(w http.ResponseWriter, r *http.Request) {
 
 	id := vars["id"]
 
-	response, err := utils.FetchReq(utils.Songs.ID, "web6dot0", utils.Params{Key: "pids", Value: id})
+	response, err := utils.FetchReq(utils.Songs.ID, utils.Params{Key: "pids", Value: id})
 
 	if err != nil {
 		log.Error(err)
@@ -47,13 +47,12 @@ func getSongByID(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(data.Songs[0])
 }
 
-
 func getSongLyrics(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	id := vars["id"]
 
-	response, err := utils.FetchReq(utils.Songs.Lyrics, "web6dot0", utils.Params{Key: "lyrics_id", Value: id})
+	response, err := utils.FetchReq(utils.Songs.Lyrics, utils.Params{Key: "lyrics_id", Value: id})
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
@@ -70,16 +69,19 @@ func getSongLyrics(w http.ResponseWriter, r *http.Request) {
 
 }
 
-
-
 func getSongSuggestions(w http.ResponseWriter, r *http.Request) {
-	// vars := mux.Vars(r)
+	vars := mux.Vars(r)
 
-	// id := vars["id"]
+	id := vars["id"]
 
-	// var stationIdRes,err = utils.FetchReq(utils.Songs.Station, "android", utils.Params{Key: "entity_id", Value: id}, utils.Params{Key: "entity_type", Value: "queue"})
 
-	// fmt.Println("stationId", stationIdRes["stationid"])
+	var stationIdRes, err = utils.FetchReq(utils.Songs.Station, utils.Params{Key: "entity_id", Value: id}, utils.Params{Key: "entity_type", Value: "queue"}, utils.Params{Key: "", Value: "queue"},)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("stationId", stationIdRes)
 	// stationId := stationIdRes["stationid"]
 
 	// _id, ok := stationId.(string)
@@ -96,12 +98,10 @@ func getSongSuggestions(w http.ResponseWriter, r *http.Request) {
 	// 	json.NewEncoder(w).Encode("Artitst not Found")
 	// }
 
-	// w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusOK)
 
 	// json.NewEncoder(w).Encode(response)
 }
-
-
 
 func getAlbumById(w http.ResponseWriter, r *http.Request) {
 
@@ -109,7 +109,7 @@ func getAlbumById(w http.ResponseWriter, r *http.Request) {
 
 	id := vars["id"]
 
-	response, err := utils.FetchReq(utils.Album.ID, "web6dot0", utils.Params{Key: "albumid", Value: id})
+	response, err := utils.FetchReq(utils.Album.ID, utils.Params{Key: "albumid", Value: id})
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
@@ -128,7 +128,7 @@ func searchAll(w http.ResponseWriter, r *http.Request) {
 
 	query := r.URL.Query()["query"][0]
 
-	response, err := utils.FetchReq(utils.Search.All, "web6dot0", utils.Params{Key: "query", Value: query})
+	response, err := utils.FetchReq(utils.Search.All, utils.Params{Key: "query", Value: query})
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
@@ -148,7 +148,7 @@ func searchAll(w http.ResponseWriter, r *http.Request) {
 func searchSongs(w http.ResponseWriter, r *http.Request) {
 	params := utils.SearchParamBuilder(r.URL.Query())
 
-	response, err := utils.FetchReq(utils.Search.Songs, "web6dot0", params...)
+	response, err := utils.FetchReq(utils.Search.Songs, params...)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode("No Results Found")
@@ -167,7 +167,7 @@ func searchAlbums(w http.ResponseWriter, r *http.Request) {
 
 	params := utils.SearchParamBuilder(r.URL.Query())
 
-	response, err := utils.FetchReq(utils.Search.Songs, "web6dot0", params...)
+	response, err := utils.FetchReq(utils.Search.Songs, params...)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode("Album not Found")
@@ -185,7 +185,7 @@ func searchArtists(w http.ResponseWriter, r *http.Request) {
 
 	params := utils.SearchParamBuilder(r.URL.Query())
 
-	response, err := utils.FetchReq(utils.Search.Artists, "web6dot0", params...)
+	response, err := utils.FetchReq(utils.Search.Artists, params...)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode("Artitst not Found")
@@ -204,7 +204,7 @@ func searchPlaylists(w http.ResponseWriter, r *http.Request) {
 
 	params := utils.SearchParamBuilder(r.URL.Query())
 
-	response, err := utils.FetchReq(utils.Search.Playlists, "web6dot0", params...)
+	response, err := utils.FetchReq(utils.Search.Playlists, params...)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode("Playlist not Found")
@@ -225,7 +225,7 @@ func getArtistById(w http.ResponseWriter, r *http.Request) {
 
 	id := vars["id"]
 
-	response, err := utils.FetchReq(utils.Artists.ID, "web6dot0", utils.Params{Key: "artistId", Value: id})
+	response, err := utils.FetchReq(utils.Artists.ID, utils.Params{Key: "artistId", Value: id})
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
@@ -256,7 +256,7 @@ func getArtistAlbums(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("params", params)
 
-	response, err := utils.FetchReq(utils.Artists.Albums, "web6dot0", params...)
+	response, err := utils.FetchReq(utils.Artists.Albums, params...)
 
 	//TODO Later
 	if err != nil {
@@ -285,7 +285,7 @@ func getArtistSongs(w http.ResponseWriter, r *http.Request) {
 
 	params = append(params, utils.Params{Key: "artistId", Value: id})
 
-	response, err := utils.FetchReq(utils.Artists.Songs, "web6dot0", params...)
+	response, err := utils.FetchReq(utils.Artists.Songs, params...)
 	// TODO later
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
@@ -302,7 +302,7 @@ func getArtistSongs(w http.ResponseWriter, r *http.Request) {
 
 func getPlaylistById(w http.ResponseWriter, r *http.Request) {
 
-	response, err := utils.FetchReq(utils.Playlist.ID, "web6dot0", utils.Params{Key: "listid", Value: r.URL.Query()["id"][0]})
+	response, err := utils.FetchReq(utils.Playlist.ID, utils.Params{Key: "listid", Value: r.URL.Query()["id"][0]})
 
 	//TODO later
 	if err != nil {

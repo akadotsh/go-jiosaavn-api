@@ -47,5 +47,3 @@ func (s *Server) Start() error {
 
 	return srv.ListenAndServe()
 }
-
-

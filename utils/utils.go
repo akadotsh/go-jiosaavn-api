@@ -20,13 +20,7 @@ type Params struct {
 	Value string
 }
 
-type Query struct {
-	endpoint string
-	context  ContextType
-	params   []Params
-}
-
-func QueryBuilder(endpoint string, context ContextType, params []Params) string {
+func QueryBuilder(endpoint string, params []Params) string {
 
 	url := url.URL{
 		Scheme: "https",
@@ -34,9 +28,7 @@ func QueryBuilder(endpoint string, context ContextType, params []Params) string 
 		Path:   "api.php",
 	}
 
-	if context == "" {
-		context = web6dot0
-	}
+	ctxValue := string(web6dot0)
 
 	queryParams := url.Query()
 
@@ -45,10 +37,16 @@ func QueryBuilder(endpoint string, context ContextType, params []Params) string 
 	queryParams.Add("_marker", "0")
 	queryParams.Add("api_version", "4")
 	queryParams.Add("api_version", "4")
-	queryParams.Add("ctx", string(web6dot0))
+
 	for _, param := range params {
-		queryParams.Add(param.Key, param.Value)
+		if param.Key == "ctx" {
+			ctxValue = param.Value
+		} else {
+			queryParams.Add(param.Key, param.Value)
+
+		}
 	}
+	queryParams.Add("ctx", ctxValue)
 
 	url.RawQuery = queryParams.Encode()
 
@@ -57,9 +55,9 @@ func QueryBuilder(endpoint string, context ContextType, params []Params) string 
 
 }
 
-func FetchReq(endpoint string, context ContextType, params ...Params) ([]byte, error) {
+func FetchReq(endpoint string, params ...Params) ([]byte, error) {
 
-	url := QueryBuilder(endpoint, context, params)
+	url := QueryBuilder(endpoint, params)
 
 	resp, err := http.Get(url)
 	defer resp.Body.Close()
