@@ -1,6 +1,5 @@
 {
   "labels": ["dependency"],
-  "dependencyDashboard": true,
   "semanticCommitType": "dependency",
   "prConcurrentLimit": 5,
   "prHourlyLimit": 5,

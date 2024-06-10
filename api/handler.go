@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
+func RootHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	resp := utils.Response{

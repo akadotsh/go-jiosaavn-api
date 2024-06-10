@@ -22,7 +22,7 @@ func (s *Server) Start() error {
 	router = router.PathPrefix("/api").Subrouter()
 
 	router.Use(middleware.Logging)
-	router.HandleFunc("/", HomeHandler).Methods("GET")
+	router.HandleFunc("/", RootHandler).Methods("GET")
 	router.HandleFunc("/songs/{id}", getSongByID).Methods("GET")
 	router.HandleFunc("/songs/{id}/suggestions", getSongSuggestions).Methods("GET")
 	router.HandleFunc("/songs/{id}/lyrics", getSongLyrics).Methods("GET")

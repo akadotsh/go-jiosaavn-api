@@ -20,7 +20,7 @@ func TestRootHandler(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 
-	handler := http.HandlerFunc(api.HomeHandler)
+	handler := http.HandlerFunc(api.RootHandler)
 
 	handler.ServeHTTP(recorder, req)
 
