@@ -1,11 +1,4 @@
 {
-  "labels": ["dependency"],
-  "semanticCommitType": "dependency",
-  "prConcurrentLimit": 5,
-  "prHourlyLimit": 5,
-  "postUpdateOptions": ["gomodTidy"],
-  "gomod": {
-    "enabled": true
-  },
-  "extends": ["config:recommended", ":dependencyDashboard"]
+  "extends": ["config:base"],
+  "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"]
 }
