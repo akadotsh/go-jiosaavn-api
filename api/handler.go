@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/akadotsh/go-jiosaavn-client/utils"
 	"github.com/charmbracelet/log"
@@ -66,7 +67,6 @@ func getSongLyrics(w http.ResponseWriter, r *http.Request) {
 
 	var data any
 	json.Unmarshal(response, &data)
-	fmt.Println("data", data)
 
 	w.WriteHeader(http.StatusOK)
 
@@ -74,37 +74,44 @@ func getSongLyrics(w http.ResponseWriter, r *http.Request) {
 
 }
 
+type StationIdResponse struct {
+	Stationid string
+}
+
 func getSongSuggestions(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	id := vars["id"]
 
-	var stationIdRes, err = utils.FetchReq(utils.Songs.Station, utils.Params{Key: "entity_id", Value: id}, utils.Params{Key: "entity_type", Value: "queue"}, utils.Params{Key: "", Value: "queue"})
+	var encodedUriId, errP = json.Marshal([]string{url.QueryEscape(id)})
+
+	if errP != nil {
+		log.Error(errP)
+	}
+
+	var stationIdRes, err = utils.FetchStationId(encodedUriId)
 
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	fmt.Println("stationId", stationIdRes)
-	// stationId := stationIdRes["stationid"]
+	var stationId StationIdResponse
+	json.Unmarshal(stationIdRes, &stationId)
+	fmt.Println("stationId", stationId)
 
-	// _id, ok := stationId.(string)
+	response, err := utils.FetchReq(utils.Songs.Suggestions, utils.Params{Key: "ctx", Value: "android"}, utils.Params{Key: "stationid", Value: stationId.Stationid}, utils.Params{Key: "k", Value: "10"})
 
-	// if !ok {
-	// 	fmt.Println("Type assertion failed")
-	// 	return
-	// }
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode("No song suggestion found")
+	}
 
-	// response,err := utils.FetchReq(utils.Songs.Suggestions, "android", utils.Params{Key: "stationid", Value: _id})
-
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusNotFound);
-	// 	json.NewEncoder(w).Encode("Artitst not Found")
-	// }
+	var data any
+	json.Unmarshal(response, &data)
 
 	w.WriteHeader(http.StatusOK)
 
-	// json.NewEncoder(w).Encode(response)
+	json.NewEncoder(w).Encode(data)
 }
 
 func getAlbumById(w http.ResponseWriter, r *http.Request) {
@@ -321,3 +328,5 @@ func getPlaylistById(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(data)
 }
+
+// https://www.jiosaavn.com/api.php?__call=webradio.createEntityStation&_format=json&_marker=0&api_version=4&ctx=android&entity_id=%5B%22yDeAS8Eh%22%5D&entity_type=queue

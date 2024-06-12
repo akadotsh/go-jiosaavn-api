@@ -41,7 +41,6 @@ func QueryBuilder(endpoint string, params []Params) string {
 	queryParams.Add("_format", "json")
 	queryParams.Add("_marker", "0")
 	queryParams.Add("api_version", "4")
-	queryParams.Add("api_version", "4")
 
 	for _, param := range params {
 		if param.Key == "ctx" {
@@ -65,13 +64,10 @@ func FetchReq(endpoint string, params ...Params) ([]byte, error) {
 	url := QueryBuilder(endpoint, params)
 
 	resp, err := http.Get(url)
-	defer resp.Body.Close()
-
 	if err != nil {
 		log.Panic(err)
-
-		return nil, err
 	}
+	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 
@@ -80,6 +76,41 @@ func FetchReq(endpoint string, params ...Params) ([]byte, error) {
 		log.Panic(err)
 		return nil, err
 
+	}
+
+	return body, nil
+}
+
+func FetchStationId(id []byte) ([]byte, error) {
+	url := url.URL{
+		Scheme: "https",
+		Host:   "www.jiosaavn.com",
+		Path:   "api.php",
+	}
+	queryParams := url.Query()
+
+	queryParams.Add("__call", Songs.Station)
+	queryParams.Add("_format", "json")
+	queryParams.Add("entity_id", string(id))
+	queryParams.Add("entity_type", "queue")
+	queryParams.Add("_marker", "0")
+	queryParams.Add("api_version", "4")
+	queryParams.Add("ctx", android)
+
+	url.RawQuery = queryParams.Encode()
+
+	resp, err := http.Get(url.String())
+
+	if err != nil {
+		log.Panic(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+
+	if err != nil {
+		return nil, err
 	}
 
 	return body, nil

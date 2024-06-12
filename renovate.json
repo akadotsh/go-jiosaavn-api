@@ -1,4 +1,9 @@
 {
-  "extends": ["config:base"],
-  "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"]
+  "commitMessagePrefix": "dependency",
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 4,
+  "postUpdateOptions": ["gomodTidy"],
+  "gomod": {
+    "enabled": true
+  }
 }
