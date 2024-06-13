@@ -20,11 +20,6 @@ type Params struct {
 	Value string
 }
 
-type Response struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-}
-
 func QueryBuilder(endpoint string, params []Params) string {
 
 	url := url.URL{
@@ -138,6 +133,16 @@ func SearchParamBuilder(queries url.Values) []Params {
 	return params
 }
 
+type Response[T any] struct {
+	Status string `json:"status"`
+	Data   T      `json:"data"`
+}
+
+type GetSongByIDData struct {
+	Modules map[string]any `json:"modules"`
+	Songs   []SongsByID    `json:"songs"`
+}
+
 type SongsByIDMoreInfo struct {
 	Music               string `json:"music"`
 	Album_Id            string `json:"album_id"`
@@ -217,6 +222,50 @@ type GetAlbumByIdResponse struct {
 	} `json:"more_info"`
 }
 
+type DownloadLink struct {
+	Quality string `json:"quality"`
+	Url     string `json:"url"`
+}
+
+type AlbumResponse struct {
+	ID              string         `json:"id"`
+	Name            string         `json:"name"`
+	Description     string         `json:"description"`
+	Year            int            `json:"year"`
+	Type            string         `json:"type"`
+	PlayCount       int            `json:"playCount"`
+	Language        string         `json:"language"`
+	ExplicitContent bool           `json:"explicitContent"`
+	Artists         any            `json:"artists"`
+	SongCount       int            `json:"songCount"`
+	Url             string         `json:"url"`
+	Image           []DownloadLink `json:"image"`
+	Songs           any            `json:"songs"`
+}
+
+type AlbumApiResponse struct {
+	ID               string `json:"id"`
+	Title            string `json:"title"`
+	Subtitle         string `json:"subtitle"`
+	Header_desc      string `json:"header_desc"`
+	Type             string `json:"type"`
+	Perma_Url        string `json:"perma_url"`
+	Image            string `json:"image"`
+	Language         string `json:"language"`
+	Year             string `json:"year"`
+	Play_Count       string `json:"play_count"`
+	Explicit_Content string `json:"explicit_content"`
+	List_Count       string `json:"list_count"`
+	List_Type        string `json:"list_type"`
+	List             any    `json:"list"`
+	More_Info        struct {
+		artistMap        string
+		song_count       string
+		is_dolby_content bool
+		label_url        string
+	} `json:"more_info"`
+}
+
 // type SearchAllResponse struct {
 // 	Albums struct{
 // 		Data []struct{
@@ -246,3 +295,13 @@ type GetAlbumByIdResponse struct {
 // 	}
 //   }
 // }
+
+type LyrcisAPIResponse struct {
+	Lyrics           string
+	Lyrics_copyright string
+	Snippet          string
+}
+
+type StationIdResponse struct {
+	Stationid string
+}

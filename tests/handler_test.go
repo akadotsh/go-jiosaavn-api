@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -24,8 +23,6 @@ func TestRootHandler(t *testing.T) {
 
 	handler.ServeHTTP(recorder, req)
 
-	fmt.Println("recorder", recorder)
-
 	if status := recorder.Code; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusOK)
@@ -35,7 +32,7 @@ func TestRootHandler(t *testing.T) {
 	json.Unmarshal(recorder.Body.Bytes(), &resp)
 
 	expectedStatus := "success"
-	expectedMessage := "Beep Boop!"
+	expectedData := "Beep Boop!"
 
 	if resp.Status != expectedStatus {
 		t.Errorf("handler returned unexpected status: got %v want %v",
@@ -44,7 +41,7 @@ func TestRootHandler(t *testing.T) {
 
 	if resp.Message != expectedMessage {
 		t.Errorf("handler returned unexpected message: got %v want %v",
-			resp.Message, expectedMessage)
+			resp.Data, expectedData)
 	}
 
 }
