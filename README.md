@@ -18,6 +18,7 @@ cd go-jiosaavn-api
 
 4. run the project:
 
+<<<<<<< HEAD
 ```
 go run cmd/main.go
 ```
@@ -27,3 +28,10 @@ go run cmd/main.go
 <a href="https://render.com/deploy?repo=https://github.com/akadotsh/go-jiosaavn-api">
 <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render" />
 </a>
+=======
+When you're ready, start your application by running:
+
+`docker compose up --build`.
+
+Your application will be available at http://localhost:8080.
+>>>>>>> 11053d7 (docker setup)
