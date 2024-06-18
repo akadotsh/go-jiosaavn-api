@@ -1,4 +1,4 @@
-## Installation
+# Installation
 
 To install and run this project, follow these steps:
 
@@ -21,3 +21,9 @@ cd go-jiosaavn-api
 ```
 go run cmd/main.go
 ```
+
+## Deploying your own instance
+
+<a href="https://render.com/deploy?repo=https://github.com/akadotsh/go-jiosaavn-api">
+<img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render" />
+</a>
