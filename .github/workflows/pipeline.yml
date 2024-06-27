@@ -21,7 +21,7 @@ jobs:
           go-version: "1.21.6"
 
       - name: Build
-        run: go build -v ./cmd/...
+        run: go build -v -o app ./cmd
 
       - name: Test
         run: go test -v ./...
