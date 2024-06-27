@@ -28,7 +28,8 @@ func TestRootHandler(t *testing.T) {
 			status, http.StatusOK)
 	}
 
-	var resp utils.Response
+	var resp utils.Response[string]
+	
 	json.Unmarshal(recorder.Body.Bytes(), &resp)
 
 	expectedStatus := "success"
@@ -39,7 +40,7 @@ func TestRootHandler(t *testing.T) {
 			resp.Status, expectedStatus)
 	}
 
-	if resp.Message != expectedMessage {
+	if resp.Data != expectedData {
 		t.Errorf("handler returned unexpected message: got %v want %v",
 			resp.Data, expectedData)
 	}

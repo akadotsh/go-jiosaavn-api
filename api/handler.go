@@ -10,15 +10,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
+
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-
-	resp := utils.Response[string]{
-		Status: "success",
-		Data:   "Beep Boop!",
-	}
-
-	json.NewEncoder(w).Encode(resp)
+	
+	handleSuccess(w, http.StatusOK, "Beep Boop!")
 }
 
 func getSongByID(w http.ResponseWriter, r *http.Request) {
