@@ -1,6 +1,6 @@
 module github.com/akadotsh/go-jiosaavn-client
 
-go 1.21.6
+go 1.22.4
 
 require (
 	github.com/charmbracelet/log v0.4.0
