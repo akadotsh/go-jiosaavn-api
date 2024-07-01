@@ -1,3 +1,10 @@
+<div align=left>
+  
+# Jio Saavn API
+
+### A simple wrapper for the Jio Saavn API written in Go.
+</div>
+
 # Installation
 
 To install and run this project, follow these steps:
