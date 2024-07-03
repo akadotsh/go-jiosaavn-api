@@ -14,7 +14,7 @@ import (
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	
-	handleSuccess(w, http.StatusOK, "Beep Boop!")
+	handleSuccess(w, http.StatusOK, "Beep Boop!!")
 }
 
 func getSongByID(w http.ResponseWriter, r *http.Request) {
@@ -154,7 +154,7 @@ func searchSongs(w http.ResponseWriter, r *http.Request) {
 }
 
 func searchAlbums(w http.ResponseWriter, r *http.Request) {
-
+//sample  dsd
 	params := utils.SearchParamBuilder(r.URL.Query())
 
 	response, err := utils.FetchReq(utils.Search.Songs, params...)

@@ -4,6 +4,8 @@ ARG GO_VERSION=1.22.5
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS build
 WORKDIR /src
 
+RUN go install github.com/air-verse/air@latest
+
 RUN --mount=type=cache,target=/go/pkg/mod/ \
     --mount=type=bind,source=go.sum,target=go.sum \
     --mount=type=bind,source=go.mod,target=go.mod \
@@ -51,6 +53,8 @@ COPY --from=build /bin/server /bin/
 
 # Expose the port that the application listens on.
 EXPOSE 8080
+
+CMD [ "air", "-c", ".air.toml" ]
 
 # What the container should run when it is started.
 ENTRYPOINT [ "/bin/server" ]
