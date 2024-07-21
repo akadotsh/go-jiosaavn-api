@@ -1,9 +1,6 @@
-<div align=left>
-  
 # Jio Saavn API
 
 ### A simple wrapper for the Jio Saavn API written in Go.
-</div>
 
 # Installation
 
@@ -33,6 +30,4 @@ Your application will be available at http://localhost:8080.
 
 ## Deploying your own instance
 
-<a href="https://render.com/deploy?repo=https://github.com/akadotsh/go-jiosaavn-api">
-<img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render" />
-</a>
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/DAV2_u?referralCode=iRCFyG)
