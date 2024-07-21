@@ -12,5 +12,4 @@ func main() {
 
 	log.Info("server running on port", port)
 	log.Fatal(server.Start())
-
 }

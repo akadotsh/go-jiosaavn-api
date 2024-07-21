@@ -10,10 +10,9 @@ import (
 	"github.com/gorilla/mux"
 )
 
-
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	
+
 	handleSuccess(w, http.StatusOK, "Beep Boop!")
 }
 
