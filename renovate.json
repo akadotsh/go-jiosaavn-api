@@ -5,5 +5,16 @@
   "postUpdateOptions": ["gomodTidy"],
   "gomod": {
     "enabled": true
-  }
+  },
+  "golang": {
+    "enabled": true
+  },
+  "regexManagers": [
+    {
+      "fileMatch": ["^.go-version$"],
+      "matchStrings": ["^(?<currentValue>\\d+\\.\\d+(\\.\\d+)?)\\s*$"],
+      "depNameTemplate": "golang/go",
+      "datasourceTemplate": "github-releases"
+    }
+  ]
 }
