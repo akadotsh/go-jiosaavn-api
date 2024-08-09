@@ -11,3 +11,5 @@ COPY . ./
 RUN go build -o main ./cmd
 
 ENTRYPOINT ["./main"]
+
+CMD [ "air", "-c", ".air.toml" ]
