@@ -2,8 +2,10 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
 
 	"github.com/akadotsh/go-jiosaavn-client/utils"
 	"github.com/charmbracelet/log"
@@ -13,7 +15,36 @@ import (
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
-	handleSuccess(w, http.StatusOK, "Beep Boop!")
+	routes := []struct {
+        Path string
+        Name string
+    }{
+        {"/songs/{id}", "Get Song by ID"},
+        {"/songs/{id}/suggestions", "Get Song Suggestions"},
+        {"/songs/{id}/lyrics", "Get Song Lyrics"},
+        {"/album/{id}", "Get Album by ID"},
+        {"/search", "Search All"},
+        {"/search/songs", "Search Songs"},
+        {"/search/albums", "Search Albums"},
+        {"/search/artists", "Search Artists"},
+        {"/search/playlist", "Search Playlists"},
+        {"/artists/{id}", "Get Artist by ID"},
+        {"/artists/{id}/songs", "Get Artist Songs"},
+        {"/artists/{id}/albums", "Get Artist Albums"},
+        {"/playlists", "Get Playlist by ID"},
+    }
+
+	var links strings.Builder
+    links.WriteString("<html><body><h1>API Routes</h1><ul>")
+    for _, route := range routes {
+        fmt.Fprintf(&links, "<li><a href=\"/api%s\">%s</a></li>", route.Path, route.Name)
+    }
+    links.WriteString("</ul></body></html>")
+
+	
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+    w.Write([]byte(links.String()))
 }
 
 func getSongByID(w http.ResponseWriter, r *http.Request) {
