@@ -15,5 +15,9 @@
       "depNameTemplate": "golang",
       "datasourceTemplate": "golang-version"
     }
-  ]
+  ],
+  "golang": {
+    "enabled": true,
+    "postUpdateOptions": ["gomodTidy"]
+  }
 }
