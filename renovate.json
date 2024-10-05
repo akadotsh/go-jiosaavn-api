@@ -1,4 +1,6 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
   "commitMessagePrefix": "dependency",
   "prConcurrentLimit": 5,
   "prHourlyLimit": 4,
@@ -15,6 +17,13 @@
       "matchStrings": ["^(?<currentValue>\\d+\\.\\d+(\\.\\d+)?)\\s*$"],
       "depNameTemplate": "golang/go",
       "datasourceTemplate": "github-releases"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["^golang/go$"],
+      "groupName": "golang",
+      "schedule": ["at any time"]
     }
   ]
 }
