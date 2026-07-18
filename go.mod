@@ -1,6 +1,6 @@
 module github.com/akadotsh/go-jiosaavn-client
 
-go 1.22
+go 1.25.0
 
 require (
 	github.com/charmbracelet/log v0.4.0
@@ -17,6 +17,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	golang.org/x/exp v0.0.0-20240823005443-9b4947da3948 // indirect
+	golang.org/x/exp v0.0.0-20260718201538-764159d718ef // indirect
 	golang.org/x/sys v0.26.0 // indirect
 )
