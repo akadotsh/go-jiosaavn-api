@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/charmbracelet/log"
+	"charm.land/log/v2"
 )
 
 func Logging(next http.Handler) http.Handler {

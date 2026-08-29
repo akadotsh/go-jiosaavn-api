@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/akadotsh/go-jiosaavn-client/api"
-	"github.com/charmbracelet/log"
+	"charm.land/log/v2"
 )
 
 func main() {

@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/akadotsh/go-jiosaavn-client/utils"
-	"github.com/charmbracelet/log"
+	"charm.land/log/v2"
 	"github.com/gorilla/mux"
 )
 
