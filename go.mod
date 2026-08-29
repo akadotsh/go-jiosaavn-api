@@ -9,7 +9,7 @@ require (
 
 require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
-	github.com/charmbracelet/lipgloss v0.13.1 // indirect
+	github.com/charmbracelet/lipgloss/v2 v2.0.6 // indirect
 	github.com/charmbracelet/x/ansi v0.11.8 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
