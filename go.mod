@@ -3,7 +3,7 @@ module github.com/akadotsh/go-jiosaavn-client
 go 1.26.0
 
 require (
-	github.com/charmbracelet/log v0.4.0
+	github.com/charmbracelet/log/v2 v2.0.0
 	github.com/gorilla/mux v1.8.1
 )
 
