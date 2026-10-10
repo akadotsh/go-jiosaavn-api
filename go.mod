@@ -23,7 +23,7 @@ require (
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/xo/terminfo v1.2.0 // indirect
-	golang.org/x/exp v0.0.0-20261007192929-f45ad48fbe92 // indirect
+	golang.org/x/exp v0.0.0-20261009195045-ca0d7ba23607 // indirect
 	golang.org/x/sync v0.23.0 // indirect
 	golang.org/x/sys v0.48.0 // indirect
 )
