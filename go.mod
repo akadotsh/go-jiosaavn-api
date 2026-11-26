@@ -11,7 +11,7 @@ require (
 	charm.land/lipgloss/v2 v2.1.1 // indirect
 	github.com/charmbracelet/colorprofile v0.4.3 // indirect
 	github.com/charmbracelet/ultraviolet v0.0.0-20261119151026-8ecbcf0e188c // indirect
-	github.com/charmbracelet/x/ansi v0.11.10 // indirect
+	github.com/charmbracelet/x/ansi v0.12.0 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
 	github.com/charmbracelet/x/termios v0.1.1 // indirect
 	github.com/charmbracelet/x/windows v0.2.2 // indirect
